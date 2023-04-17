@@ -1,0 +1,19 @@
+import * as Keychain from 'react-native-keychain';
+
+// Save the token securely
+// await Keychain.setGenericPassword('token', token);
+
+// Retrieve the token
+// const credentials = await Keychain.getGenericPassword();
+// const storedToken = credentials ? credentials.password : null;
+
+// Delete the token (e.g., during logout)
+// await Keychain.resetGenericPassword();
+
+//OR USING AXIOS
+
+//setting the token
+axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+//after logout process
+delete axios.defaults.headers.common['Authorization'];
