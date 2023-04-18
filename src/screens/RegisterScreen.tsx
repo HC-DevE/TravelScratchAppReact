@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 interface RegisterFormData {
     first_name: string;
@@ -13,8 +15,12 @@ interface RegisterFormData {
     birth_date: string;
     gender: string;
 }
+interface RegisterScreenProps {
+    navigation: StackNavigationProp<any, 'Register'>;
+}
 
-const RegisterScreen = () => {
+// const navigation = useNavigation();
+const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
     const {
         control,
         handleSubmit,
@@ -177,6 +183,9 @@ const RegisterScreen = () => {
             )}
 
             <Button title="Register" onPress={handleSubmit(onSubmit)} />
+            <Button title="Back to Login" onPress={() => navigation.navigate(
+                'Login'
+            )} />
         </View>
     );
 

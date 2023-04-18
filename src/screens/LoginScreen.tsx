@@ -104,6 +104,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
             {errors.password && <Text style={styles.errorText}>{errors.password.message}</Text>}
 
             <Button title="Login" onPress={handleSubmit(onSubmit)} />
+            <Button title="Register" onPress={() => navigation.navigate('Register')} />
+            <Button title="Forgot Password" onPress={() => navigation.navigate('ForgotPassword')} />
         </View>
     );
 
