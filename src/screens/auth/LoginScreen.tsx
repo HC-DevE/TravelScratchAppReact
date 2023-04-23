@@ -26,7 +26,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     // onSubmit method
     const onSubmit = async (data: LoginFormData) => {
         try {
-            const response = await axios.post('http://10.0.2.2:3000/api/auth/login', {
+            const response = await axios.post('https://mdp04.mdstestangers.fr/api/auth/login', {
                 email: data.email,
                 password_hash: data.password,
             });

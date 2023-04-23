@@ -1,26 +1,13 @@
 import React from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import appTheme from '../../constants/theme';
+import Button from '../../components/Button';
+import { RegisterFormData, RegisterScreenProps } from '../../models/Register.model';
 
-interface RegisterFormData {
-    first_name: string;
-    last_name: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-    phone?: string;
-    birth_date: string;
-    gender: string;
-}
-interface RegisterScreenProps {
-    navigation: StackNavigationProp<any, 'Register'>;
-}
-
-// const navigation = useNavigation();
 const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
+// const RegisterScreen = ({ navigation }) => {
     const {
         control,
         handleSubmit,
@@ -28,19 +15,22 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
         watch,
     } = useForm<RegisterFormData>();
 
+    const apiURL = 'https://mdp04.mdstestangers.fr/api/auth/register';
 
     const onSubmit = async (data: RegisterFormData) => {
         try {
-            const response = await axios.post('http://10.0.2.2:3000/api/auth/register', {
+            console.log()
+            const response = await axios.post(apiURL, {
                 first_name: data.first_name,
                 last_name: data.last_name,
                 email: data.email,
                 password_hash: data.password,
                 birth_date: data.birth_date,
-                gender: data.gender ? data.gender : 'other',
+                gender: data.gender ? data.gender : '',
             });
 
             console.log('Registration successful:', response.data);
+            navigation.navigate('Login');
         } catch (error: any) {
             console.log(error);
             if (error.response) {
@@ -53,7 +43,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Register</Text>
+            <Text style={appTheme.STYLES.subtitle}>Register</Text>
 
             <Controller
                 control={control}
@@ -182,10 +172,16 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                 <Text style={styles.errorText}>{errors.confirmPassword.message}</Text>
             )}
 
-            <Button title="Register" onPress={handleSubmit(onSubmit)} />
-            <Button title="Back to Login" onPress={() => navigation.navigate(
-                'Login'
-            )} />
+            <Button 
+            title="Register" 
+            onPress={handleSubmit(onSubmit)} 
+            color={''} 
+            disabled={watch('first_name') && watch('email') ? false : true} />
+            <Button 
+            title="Back to Login" 
+            onPress={() => navigation.navigate('Login')} 
+            color={''} 
+            disabled={false} />
         </View>
     );
 
@@ -213,6 +209,6 @@ const styles = StyleSheet.create({
         color: 'red',
         marginBottom: 8,
     }
-});
+}); // à enlever après 
 
 export default RegisterScreen;
