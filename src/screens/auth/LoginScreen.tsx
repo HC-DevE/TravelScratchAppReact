@@ -1,60 +1,50 @@
-import React from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import axios from 'axios';
+import { LoginFormData } from '../../models/Login.model';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useAuth } from '../../context/AuthContext';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 
 
 
-interface LoginScreenProps {
-    navigation: StackNavigationProp<any, 'Login'>;
-}
+// interface LoginScreenProps {
+//     navigation: StackNavigationProp<any, 'Login'>;
+// }
 
+const LoginScreen = () => {
 
-interface LoginFormData {
-    email: string;
-    password: string;
-}
+    //useContext of 2nd method
+    const [email, setEmail]: [string | null, Function] = useState('');
+    const [password, setPassword]: [string | null, Function] = useState('');
+    const { onLogin, onRegister } = useAuth();
 
-const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
-    const {
-        control,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<LoginFormData>();
-
-    // onSubmit method
-    const onSubmit = async (data: LoginFormData) => {
-        try {
-            const response = await axios.post('https://mdp04.mdstestangers.fr/api/auth/login', {
-                email: data.email,
-                password_hash: data.password,
-            });
-
-            console.log(response);
-
-            // Save the token from the response to a variable that we will use later
-            const token = response.data.token;
-
-            // Save the token to AsyncStorage but it's not very secure
-            //   await AsyncStorage.setItem('token', token);
-
-            // Save the token to the axios default headers
-            axios.defaults.headers.common['Authorization'] = token;
-
-            //or save it to the keychain of react
-            // await Keychain.setGenericPassword('token', token);
-
-            // Navigate to the home screen or another screen after successful login
-            navigation.navigate('Home');
-        } catch (error: any) {
-            if (error.response) {
-                console.log('Error during login:', error.response.data);
-            } else {
-                console.log('Error during login:', error.message);
-            }
+    const login = async () => {
+        const result = await onLogin!({ email, password });
+        if (result && result.error) {
+            console.log(result.msg);
         }
     };
+
+    // const register = async (data: RegisterFormData) => {
+    //     const result = await onRegister!(data); // RegisterFormData
+    //     if (result && result.error) {
+    //         console.log(result.msg);
+    //     } else {
+    //         login();
+    //     }
+    // };
+
+
+    //useContext of 1st method
+    // const { onLogin } = useContext(AuthContext);
+    // const [email, setEmail]: [string | null, Function] = useState(null);
+    // const [password, setPassword]: [string | null, Function] = useState(null);
+    
+    const {
+        control,
+        // handleSubmit,
+        formState: { errors },
+    } = useForm<LoginFormData>();
 
     return (
         <View style={styles.container}>
@@ -66,7 +56,12 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                     <TextInput
                         style={styles.input}
                         onBlur={onBlur}
-                        onChangeText={onChange}
+                        onChangeText={
+                            (value) => {
+                                onChange(value);
+                                setEmail(value);
+                            }
+                        }
                         value={value}
                         placeholder="Email"
                     />
@@ -89,10 +84,18 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                     <TextInput
                         style={styles.input}
                         onBlur={onBlur}
-                        onChangeText={onChange}
+                        onChangeText={
+                            (value) => {
+                                onChange(value);
+                                setPassword(value);
+                            }
+                        }
+                        // onChangetext={
+                        //     (text: string) => setPassword(text)
+                        // }
                         value={value}
                         placeholder="Password"
-                        secureTextEntry
+                        secureTextEntry={true}
                     />
                 )}
                 name="password"
@@ -102,10 +105,10 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                 defaultValue=""
             />
             {errors.password && <Text style={styles.errorText}>{errors.password.message}</Text>}
-
-            <Button title="Login" onPress={handleSubmit(onSubmit)} />
-            <Button title="Register" onPress={() => navigation.navigate('Register')} />
-            <Button title="Forgot Password" onPress={() => navigation.navigate('ForgotPassword')} />
+            {/* <Button title="Login" onPress={() => { onLogin!({ email, password }); }} /> */}
+            <Button title="Sign In" onPress={login} />
+            {/* <Button title="Create an account" onPress={register} /> */}
+            {/* <Button title="Forgot Password" onPress={onForgotPassword} /> */}
         </View>
     );
 
@@ -139,3 +142,4 @@ const styles = StyleSheet.create({
 
 
 export default LoginScreen;
+

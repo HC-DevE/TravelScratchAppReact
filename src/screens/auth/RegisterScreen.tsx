@@ -7,7 +7,6 @@ import Button from '../../components/Button';
 import { RegisterFormData, RegisterScreenProps } from '../../models/Register.model';
 
 const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
-// const RegisterScreen = ({ navigation }) => {
     const {
         control,
         handleSubmit,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 interface WelcomeScreenProps {
@@ -12,11 +12,11 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
             <Text style={styles.title}>Welcome to Travel Scratch</Text>
             <Button
                 title="Register"
-                onPress={() => navigation.navigate('Register')}
+                onPress={() => { navigation.navigate('Register') }}
             />
             <Button
                 title="Login"
-                onPress={() => navigation.navigate('Login')}
+                onPress={() => { navigation.navigate('Login') }}
             />
         </View>
     );
