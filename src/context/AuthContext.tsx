@@ -73,17 +73,22 @@ export const AuthProvider = ({ children }: any) => {
     }
 
     const onRegister = async (data: RegisterFormData) => {
+        const { password, confirm_password, ...newData } = data;
         try {
-            const response = await axios.post(`${API_URL}auth/register`, data);
-            console.log(response);
+            const response = await axios.post(`${API_URL}auth/register`, {
+                ...newData,
+                password_hash: password,
+            });
+            return response.data;
         } catch (error: any) {
-            if (error.response) {
-                console.log("Error during registration:", error.response.data);
-            } else {
-                console.log("Error during registration:", error.message);
-            }
+            const responseData = error?.response?.data;
+            return {
+                error: responseData?.error,
+                message: responseData?.message,
+            };
         }
-    };
+    }
+
 
     const onLogin = async (data: LoginFormData) => {
         try {
@@ -98,7 +103,7 @@ export const AuthProvider = ({ children }: any) => {
                 "Authorization"
             ] = `Bearer ${response.data.token}`;
             await AsyncStorage.setItem(TOKEN_KEY, response.data.token);
-            console.log(response.data);
+            console.log('from onLogin', response.data);
         } catch (error: any) {
             if (error.response) {
                 console.log("Error during login:", error.response.data);

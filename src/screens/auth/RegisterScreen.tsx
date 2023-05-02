@@ -1,44 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
-import axios from 'axios';
 import appTheme from '../../constants/theme';
 import Button from '../../components/Button';
 import { RegisterFormData, RegisterScreenProps } from '../../models/Register.model';
+import { useAuth } from '../../context/AuthContext';
 
 const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
+
+    const [data, setData]: [any, Function] = useState('');
+    // const [email, setEmail]: [string | null, Function] = useState('');
+    // const [password, setPassword]: [string | null, Function] = useState('');
+    // const [confirmPassword, setConfirmPassword]: [string | null, Function] = useState('');
+    // const [first_name, setFirstName]: [string | null, Function] = useState('');
+    // const [last_name, setLastName]: [string | null, Function] = useState('');
+    // const [birth_date, setBirthDate]: [string | null, Function] = useState('');
+    // const [gender, setGender]: [string | null, Function] = useState('');
+    // const [preferences, setPreferences]: [string | null, Function] = useState('');
+
+    const { onLogin, onRegister } = useAuth();
+
+    const login = async () => {
+        console.log(data);
+        const result = await onLogin!({
+            email: data.email,
+            password: data.password
+        });
+        if (result && result.error) {
+            console.log(result.msg);
+        }
+    };
+
+    const register = async (data: RegisterFormData) => {
+        const result = await onRegister!(data);
+        if (result && result.message !== 'User created successfully') {
+            console.log(result.message);
+        } else {
+            login();
+        }
+    };
+
     const {
         control,
         handleSubmit,
         formState: { errors },
         watch,
     } = useForm<RegisterFormData>();
-
-    const apiURL = 'https://mdp04.mdstestangers.fr/api/auth/register';
-
-    const onSubmit = async (data: RegisterFormData) => {
-        try {
-            console.log()
-            const response = await axios.post(apiURL, {
-                first_name: data.first_name,
-                last_name: data.last_name,
-                email: data.email,
-                password_hash: data.password,
-                birth_date: data.birth_date,
-                gender: data.gender ? data.gender : '',
-            });
-
-            console.log('Registration successful:', response.data);
-            navigation.navigate('Login');
-        } catch (error: any) {
-            console.log(error);
-            if (error.response) {
-                console.log('Error during registration:', error.response.data);
-            } else {
-                console.log('Error during registration:', error.message);
-            }
-        }
-    };
 
     return (
         <View style={styles.container}>
@@ -50,30 +57,43 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                     <TextInput
                         style={styles.input}
                         onBlur={onBlur}
-                        onChangeText={onChange}
+                        onChangeText={
+                            (value) => {
+                                onChange(value);
+                                setData({
+                                    ...data,
+                                    first_name: value
+                                })
+                            }
+                        }
                         value={value}
                         placeholder="First Name"
                     />
                 )}
                 name="first_name"
-                rules={{ required: 'First name is required' }}
                 defaultValue=""
             />
             {errors.first_name && <Text style={styles.errorText}>{errors.first_name.message}</Text>}
-
             <Controller
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
                         style={styles.input}
                         onBlur={onBlur}
-                        onChangeText={onChange}
+                        onChangeText={
+                            (value) => {
+                                onChange(value);
+                                setData({
+                                    ...data,
+                                    last_name: value
+                                })
+                            }
+                        }
                         value={value}
                         placeholder="Last Name"
                     />
                 )}
                 name="last_name"
-                rules={{ required: 'Last name is required' }}
                 defaultValue=""
             />
             {errors.last_name && <Text style={styles.errorText}>{errors.last_name.message}</Text>}
@@ -84,7 +104,15 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                     <TextInput
                         style={styles.input}
                         onBlur={onBlur}
-                        onChangeText={onChange}
+                        onChangeText={
+                            (value) => {
+                                onChange(value);
+                                setData({
+                                    ...data,
+                                    email: value
+                                })
+                            }
+                        }
                         value={value}
                         placeholder="Email"
                     />
@@ -106,14 +134,21 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                     <TextInput
                         style={styles.input}
                         onBlur={onBlur}
-                        onChangeText={onChange}
+                        onChangeText={
+                            (value) => {
+                                onChange(value);
+                                setData({
+                                    ...data,
+                                    birth_date: value,
+                                })
+                            }
+                        }
                         value={value}
                         placeholder="Birth Date"
                     />
                 )}
                 name="birth_date"
                 rules={{
-                    required: 'Birth date is required',
                     pattern: {
                         value: /^\d{4}-\d{2}-\d{2}$/i,
                         message: 'Invalid birth date',
@@ -121,6 +156,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                 }}
                 defaultValue=""
             />
+            {errors.birth_date && <Text style={styles.errorText}>{errors.birth_date.message}</Text>}
 
             <Controller
                 control={control}
@@ -128,7 +164,16 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                     <TextInput
                         style={styles.input}
                         onBlur={onBlur}
-                        onChangeText={onChange}
+                        onChangeText={
+                            (value) => {
+                                onChange(value);
+                                setData({
+                                    ...data,
+                                    password: value
+                                });
+                            }
+                        }
+
                         value={value}
                         placeholder="Password"
                         secureTextEntry
@@ -152,13 +197,21 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                     <TextInput
                         style={styles.input}
                         onBlur={onBlur}
-                        onChangeText={onChange}
+                        onChangeText={
+                            (value) => {
+                                onChange(value);
+                                setData({
+                                    ...data,
+
+                                });
+                            }
+                        }
                         value={value}
                         placeholder="Confirm Password"
                         secureTextEntry
                     />
                 )}
-                name="confirmPassword"
+                name="confirm_password"
                 rules={{
                     required: 'Please confirm your password',
                     validate: value =>
@@ -167,20 +220,20 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
 
                 defaultValue=""
             />
-            {errors.confirmPassword && (
-                <Text style={styles.errorText}>{errors.confirmPassword.message}</Text>
+            {errors.confirm_password && (
+                <Text style={styles.errorText}>{errors.confirm_password.message}</Text>
             )}
 
-            <Button 
-            title="Register" 
-            onPress={handleSubmit(onSubmit)} 
-            color={''} 
-            disabled={watch('first_name') && watch('email') ? false : true} />
-            <Button 
-            title="Back to Login" 
-            onPress={() => navigation.navigate('Login')} 
-            color={''} 
-            disabled={false} />
+            <Button
+                title="Register"
+                onPress={handleSubmit(register)}
+                color={''}
+                disabled={watch('first_name') && watch('email') ? false : true} />
+            <Button
+                title="Back to Login"
+                onPress={() => navigation.navigate('Login')}
+                color={''}
+                disabled={false} />
         </View>
     );
 

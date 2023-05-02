@@ -16,7 +16,7 @@ const LoginScreen = () => {
     //useContext of 2nd method
     const [email, setEmail]: [string | null, Function] = useState('');
     const [password, setPassword]: [string | null, Function] = useState('');
-    const { onLogin, onRegister } = useAuth();
+    const { onLogin } = useAuth();
 
     const login = async () => {
         const result = await onLogin!({ email, password });
@@ -39,7 +39,7 @@ const LoginScreen = () => {
     // const { onLogin } = useContext(AuthContext);
     // const [email, setEmail]: [string | null, Function] = useState(null);
     // const [password, setPassword]: [string | null, Function] = useState(null);
-    
+
     const {
         control,
         // handleSubmit,
@@ -105,10 +105,7 @@ const LoginScreen = () => {
                 defaultValue=""
             />
             {errors.password && <Text style={styles.errorText}>{errors.password.message}</Text>}
-            {/* <Button title="Login" onPress={() => { onLogin!({ email, password }); }} /> */}
             <Button title="Sign In" onPress={login} />
-            {/* <Button title="Create an account" onPress={register} /> */}
-            {/* <Button title="Forgot Password" onPress={onForgotPassword} /> */}
         </View>
     );
 
