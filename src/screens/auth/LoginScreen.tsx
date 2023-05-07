@@ -4,14 +4,15 @@ import { LoginFormData } from '../../models/Login.model';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useAuth } from '../../context/AuthContext';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import ForgotPasswordScreen from './ForgotPasswordScreen';
 
 
 
-// interface LoginScreenProps {
-//     navigation: StackNavigationProp<any, 'Login'>;
-// }
+interface LoginScreenProps {
+    navigation: StackNavigationProp<any, 'Login'>;
+}
 
-const LoginScreen = () => {
+const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
     //useContext of 2nd method
     const [email, setEmail]: [string | null, Function] = useState('');
@@ -25,26 +26,18 @@ const LoginScreen = () => {
         }
     };
 
-    // const register = async (data: RegisterFormData) => {
-    //     const result = await onRegister!(data); // RegisterFormData
-    //     if (result && result.error) {
-    //         console.log(result.msg);
-    //     } else {
-    //         login();
-    //     }
-    // };
-
-
-    //useContext of 1st method
-    // const { onLogin } = useContext(AuthContext);
-    // const [email, setEmail]: [string | null, Function] = useState(null);
-    // const [password, setPassword]: [string | null, Function] = useState(null);
 
     const {
         control,
         // handleSubmit,
         formState: { errors },
-    } = useForm<LoginFormData>();
+    } = useForm<LoginFormData>({
+        defaultValues: {
+            email: '',
+            password: '',
+        },
+        mode: 'onChange'
+    });
 
     return (
         <View style={styles.container}>
@@ -106,6 +99,9 @@ const LoginScreen = () => {
             />
             {errors.password && <Text style={styles.errorText}>{errors.password.message}</Text>}
             <Button title="Sign In" onPress={login} />
+            <Button title="Forget Password" onPress={() => {
+                navigation.navigate('ForgotPassword');
+            }} />
         </View>
     );
 

@@ -11,14 +11,10 @@ interface HomeScreenProps {
 const HomeScreen: React.FC<HomeScreenProps> = () => {
     const { onLogout } = useAuth();
 
-    
-
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Home</Text>
-            <Button title="Logout" onPress={() => {
-                onLogout()
-            }} />
+            <Button title="Logout" onPress={onLogout} />
         </View>
     );
 

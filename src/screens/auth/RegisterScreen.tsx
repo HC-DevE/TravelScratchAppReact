@@ -9,19 +9,11 @@ import { useAuth } from '../../context/AuthContext';
 const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
 
     const [data, setData]: [any, Function] = useState('');
-    // const [email, setEmail]: [string | null, Function] = useState('');
-    // const [password, setPassword]: [string | null, Function] = useState('');
-    // const [confirmPassword, setConfirmPassword]: [string | null, Function] = useState('');
-    // const [first_name, setFirstName]: [string | null, Function] = useState('');
-    // const [last_name, setLastName]: [string | null, Function] = useState('');
-    // const [birth_date, setBirthDate]: [string | null, Function] = useState('');
-    // const [gender, setGender]: [string | null, Function] = useState('');
-    // const [preferences, setPreferences]: [string | null, Function] = useState('');
-
+    // const { register, handleSubmit, errors } = useForm<RegisterFormData>();
     const { onLogin, onRegister } = useAuth();
+    const { control, handleSubmit, formState: { errors }, watch } = useForm<RegisterFormData>();
 
     const login = async () => {
-        console.log(data);
         const result = await onLogin!({
             email: data.email,
             password: data.password
@@ -40,12 +32,8 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
         }
     };
 
-    const {
-        control,
-        handleSubmit,
-        formState: { errors },
-        watch,
-    } = useForm<RegisterFormData>();
+
+
 
     return (
         <View style={styles.container}>
@@ -53,20 +41,18 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
 
             <Controller
                 control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
+                render={() => (
                     <TextInput
                         style={styles.input}
-                        onBlur={onBlur}
                         onChangeText={
-                            (value) => {
-                                onChange(value);
+                            (first_name) => {
                                 setData({
                                     ...data,
-                                    first_name: value
+                                    first_name: first_name
                                 })
                             }
                         }
-                        value={value}
+                        value={data.first_name}
                         placeholder="First Name"
                     />
                 )}

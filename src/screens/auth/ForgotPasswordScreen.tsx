@@ -2,12 +2,19 @@ import React from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
+import { useAuth } from '../../context/AuthContext';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 interface ForgotPasswordFormData {
     email: string;
 }
 
-const ForgotPasswordScreen = () => {
+interface ForgotPasswordScreenProps {
+    navigation: StackNavigationProp<any, 'ForgotPassword'>;
+}
+
+const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({ navigation }) => {
+    const { onForgotPassword } = useAuth();
     const {
         control,
         handleSubmit,
@@ -15,15 +22,9 @@ const ForgotPasswordScreen = () => {
     } = useForm<ForgotPasswordFormData>();
 
     const onSubmit = async (data: ForgotPasswordFormData) => {
-        try {
-            // Replace with your API endpoint
-            const response = await axios.post('http://10.0.2.2:3000/api/password/forgot-password', {
-                email: data.email,
-            });
-
-            console.log('Forgot password request successful:', response.data);
-        } catch (error: any) {
-            console.log('Error during forgot password request:', error.response.data);
+        const result = await onForgotPassword!(data);
+        if (result && result.error) {
+            console.log(result.error);
         }
     };
 

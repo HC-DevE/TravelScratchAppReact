@@ -8,28 +8,25 @@ import HomeScreen from '../screens/home/HomeScreen';
 import ForgotPasswordScreen from '../screens/auth/ForgotPasswordScreen';
 import ResetPasswordScreen from '../screens/auth/ResetPasswordScreen';
 import { useAuth } from '../context/AuthContext';
+import { View, ActivityIndicator } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
 const StackNavigator = () => {
+    const { authState, isLoading } = useAuth();
 
-    // const { isLoading, userToken, isAuthenticated } = useContext(AuthContext);
-    const { authState } = useAuth();
+    if (isLoading) {
+        return (
+            <View style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center'
+            }}>
+                <ActivityIndicator />
+            </View>
 
-    // useEffect(() => {}, []);
-
-    // if (isLoading) {
-    //     return (
-    //         <View style={{
-    //             flex: 1,
-    //             justifyContent: 'center',
-    //             alignItems: 'center'
-    //         }}>
-    //             <ActivityIndicator />
-    //         </View>
-
-    //     );
-    // }
+        );
+    }
 
     return (
         <Stack.Navigator>
@@ -47,55 +44,6 @@ const StackNavigator = () => {
             )}
         </Stack.Navigator>
     );
-    // return (
-    //     <Stack.Navigator>
-    //         {userToken && isAuthenticated ? (
-    //             <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-    //         ) : (
-    //             <>
-    //                 <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
-    //                 <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-    //                 <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
-    //                 <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
-    //                 <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
-    //             </>
-
-    //         )}
-    //     </Stack.Navigator>
-    // );
-
-
-
-    // return (
-    //     <Stack.Navigator initialRouteName={userToken && isAuthenticated ? 'Home' : 'Welcome'}>
-    //         <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
-    //         <Stack.Screen
-    //             name="Register"
-    //             component={RegisterScreen}
-    //             options={{ headerShown: false }}
-    //         />
-    //         <Stack.Screen
-    //             name="Login"
-    //             component={LoginScreen}
-    //             options={{ headerShown: false }}
-    //         />
-    //         <Stack.Screen
-    //             name="Home"
-    //             component={HomeScreen}
-    //             options={{ headerShown: false }}
-    //         />
-    //         <Stack.Screen
-    //             name="ForgotPassword"
-    //             component={ForgotPasswordScreen}
-    //             options={{ headerShown: false }}
-    //         />
-    //         <Stack.Screen
-    //             name="ResetPassword"
-    //             component={ResetPasswordScreen}
-    //             options={{ headerShown: false }}
-    //         />
-    //     </Stack.Navigator>
-    // );
 };
 
 export default StackNavigator;

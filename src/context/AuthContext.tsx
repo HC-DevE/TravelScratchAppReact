@@ -7,9 +7,11 @@ import { API_URL } from "../config/config";
 
 interface AuthProps {
     authState?: { token: string | null; authenticated: boolean | null };
-    onRegister?: (data: RegisterFormData) => Promise<any>; // RegisterFormData
+    isLoading?: boolean;
+    onRegister?: (data: RegisterFormData) => Promise<any>;
     onLogin?: (data: LoginFormData) => Promise<any>;
     onLogout?: () => Promise<any>;
+    onForgotPassword?: (data: { email: string }) => Promise<any>;
 }
 
 const TOKEN_KEY = "jwt-auth-token";
@@ -21,11 +23,12 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }: any) => {
     const [authState, setAuthState] = useState<{
         token: string | null;
-        authenticated: boolean | null;
+        authenticated: boolean;
     }>({
         token: null,
-        authenticated: null,
+        authenticated: false,
     });
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
         const checkToken = async () => {
@@ -73,14 +76,17 @@ export const AuthProvider = ({ children }: any) => {
     }
 
     const onRegister = async (data: RegisterFormData) => {
+        setIsLoading(true);
         const { password, confirm_password, ...newData } = data;
         try {
             const response = await axios.post(`${API_URL}auth/register`, {
                 ...newData,
                 password_hash: password,
             });
+            setIsLoading(false);
             return response.data;
         } catch (error: any) {
+            setIsLoading(false);
             const responseData = error?.response?.data;
             return {
                 error: responseData?.error,
@@ -91,6 +97,7 @@ export const AuthProvider = ({ children }: any) => {
 
 
     const onLogin = async (data: LoginFormData) => {
+        setIsLoading(true);
         try {
             const response = await axios.post(`${API_URL}auth/login`, {
                 email: data.email,
@@ -103,17 +110,22 @@ export const AuthProvider = ({ children }: any) => {
                 "Authorization"
             ] = `Bearer ${response.data.token}`;
             await AsyncStorage.setItem(TOKEN_KEY, response.data.token);
-            console.log('from onLogin', response.data);
+            setIsLoading(false);
+            return response.data;
         } catch (error: any) {
+            setIsLoading(false);
             if (error.response) {
                 console.log("Error during login:", error.response.data);
+                return error.response.data;
             } else {
                 console.log("Error during login:", error.message);
+                return error.message;
             }
         }
     };
 
     const onLogout = async () => {
+        //Remove the token from local storage
         removeDataFromLocalStorage(TOKEN_KEY);
         //Update the HTTP Headers
         axios.defaults.headers.common["Authorization"] = "";
@@ -121,12 +133,35 @@ export const AuthProvider = ({ children }: any) => {
         setAuthState({ token: null, authenticated: false });
     };
 
+    //forgotpassword
+    const onForgotPassword = async (data: { email: string }) => {
+        setIsLoading(true);
+        try {
+            const response = await axios.post(`${API_URL}password/forgot-password`, {
+                email: data.email,
+            });
+            setIsLoading(false);
+            return response.data;
+        } catch (error: any) {
+            setIsLoading(false);
+            if (error.response) {
+                console.log("Error during forgot password:", error.response.data);
+                return error.response.data;
+            } else {
+                console.log("Error during forgot password:", error.message);
+                return error.message;
+            }
+        }
+    };
+
 
     const value = {
         authState,
+        isLoading,
         onRegister,
         onLogin,
-        onLogout
+        onLogout,
+        onForgotPassword,
     };
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

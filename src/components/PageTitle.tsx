@@ -5,7 +5,9 @@ import { PageTitle } from '../models/PageTitle.model'
 const PageTitle = (props: PageTitle) => {
   return (
     <View>
-      <Text>PageTitle</Text>
+      <Text>{props.title}</Text>
+
+      <Text>{props.subtitle}</Text>
     </View>
   )
 }
