@@ -1,19 +1,17 @@
 import React from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
-import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
-import { StackNavigationProp } from '@react-navigation/stack';
 
 interface ForgotPasswordFormData {
     email: string;
 }
 
-interface ForgotPasswordScreenProps {
-    navigation: StackNavigationProp<any, 'ForgotPassword'>;
-}
+// interface ForgotPasswordScreenProps {
+//     navigation: StackNavigationProp<any, 'ForgotPassword'>;
+// }
 
-const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({ navigation }) => {
+const ForgotPasswordScreen = () => {
     const { onForgotPassword } = useAuth();
     const {
         control,
