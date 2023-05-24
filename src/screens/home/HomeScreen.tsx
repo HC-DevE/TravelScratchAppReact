@@ -14,6 +14,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Home</Text>
+            <Text> Welcome to the Home Screen</Text>
             <Button title="Logout" onPress={onLogout} />
         </View>
     );

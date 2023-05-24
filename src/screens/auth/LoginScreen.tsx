@@ -14,7 +14,7 @@ interface LoginScreenProps {
 
 const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
-    //useContext of 2nd method
+    //useContext method //TODO:useRef instead because no need to track value onChange for the fields
     const [email, setEmail]: [string | null, Function] = useState('');
     const [password, setPassword]: [string | null, Function] = useState('');
     const { onLogin } = useAuth();
