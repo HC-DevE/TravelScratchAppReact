@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, Button, TextInput, StyleSheet } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import appTheme from '../../constants/theme';
-import Button from '../../components/Button';
+// import Button from '../../components/Button';
 import { RegisterFormData, RegisterScreenProps } from '../../models/Register.model';
 import { useAuth } from '../../context/AuthContext';
 
@@ -36,14 +36,14 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
 
 
     return (
-        <View style={styles.container}>
-            <Text style={appTheme.STYLES.subtitle}>Register</Text>
+        <View className={styles.container}>
+            <Text className={appTheme.STYLES.subtitle}>Register</Text>
 
             <Controller
                 control={control}
                 render={() => (
                     <TextInput
-                        style={styles.input}
+                        className={styles.input}
                         onChangeText={
                             (first_name) => {
                                 setData({
@@ -59,12 +59,12 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                 name="first_name"
                 defaultValue=""
             />
-            {errors.first_name && <Text style={styles.errorText}>{errors.first_name.message}</Text>}
+            {errors.first_name && <Text className={styles.errorText}>{errors.first_name.message}</Text>}
             <Controller
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
-                        style={styles.input}
+                        className={styles.input}
                         onBlur={onBlur}
                         onChangeText={
                             (value) => {
@@ -82,13 +82,13 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                 name="last_name"
                 defaultValue=""
             />
-            {errors.last_name && <Text style={styles.errorText}>{errors.last_name.message}</Text>}
+            {errors.last_name && <Text className={styles.errorText}>{errors.last_name.message}</Text>}
 
             <Controller
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
-                        style={styles.input}
+                        className={styles.input}
                         onBlur={onBlur}
                         onChangeText={
                             (value) => {
@@ -113,12 +113,12 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                 }}
                 defaultValue=""
             />
-            {errors.email && <Text style={styles.errorText}>{errors.email.message}</Text>}
+            {errors.email && <Text className={styles.errorText}>{errors.email.message}</Text>}
             <Controller
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
-                        style={styles.input}
+                        className={styles.input}
                         onBlur={onBlur}
                         onChangeText={
                             (value) => {
@@ -142,13 +142,13 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                 }}
                 defaultValue=""
             />
-            {errors.birth_date && <Text style={styles.errorText}>{errors.birth_date.message}</Text>}
+            {errors.birth_date && <Text className={styles.errorText}>{errors.birth_date.message}</Text>}
 
             <Controller
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
-                        style={styles.input}
+                        className={styles.input}
                         onBlur={onBlur}
                         onChangeText={
                             (value) => {
@@ -175,13 +175,13 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                 }}
                 defaultValue=""
             />
-            {errors.password && <Text style={styles.errorText}>{errors.password.message}</Text>}
+            {errors.password && <Text className={styles.errorText}>{errors.password.message}</Text>}
 
             <Controller
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
-                        style={styles.input}
+                        className={styles.input}
                         onBlur={onBlur}
                         onChangeText={
                             (value) => {
@@ -207,7 +207,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                 defaultValue=""
             />
             {errors.confirm_password && (
-                <Text style={styles.errorText}>{errors.confirm_password.message}</Text>
+                <Text className={styles.errorText}>{errors.confirm_password.message}</Text>
             )}
 
             <Button
@@ -225,28 +225,12 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
 
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        paddingHorizontal: 16,
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 16,
-    },
-    input: {
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        paddingHorizontal: 8,
-        marginBottom: 8,
-    },
-    errorText: {
-        color: 'red',
-        marginBottom: 8,
-    }
-}); // à enlever après 
+const styles = {
+    container: 'flex-1 justify-center px-4',
+    title: 'text-2xl font-bold mb-4',
+    subtitle: 'text-2xl font-bold text-black text-center mb-4',
+    input: 'h-10 border border-gray-300 px-2 mb-2',
+    errorText: 'text-red-500 mb-2',
+}; // à enlever après 
 
 export default RegisterScreen;

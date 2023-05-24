@@ -4,7 +4,6 @@ import { LoginFormData } from '../../models/Login.model';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useAuth } from '../../context/AuthContext';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import ForgotPasswordScreen from './ForgotPasswordScreen';
 
 
 

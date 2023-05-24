@@ -9,6 +9,7 @@ import ForgotPasswordScreen from '../screens/auth/ForgotPasswordScreen';
 import ResetPasswordScreen from '../screens/auth/ResetPasswordScreen';
 import { useAuth } from '../context/AuthContext';
 import { View, ActivityIndicator } from 'react-native';
+import OnboardingScreen from '../screens/home/OnboardingScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,10 +31,11 @@ const StackNavigator = () => {
 
     return (
         <Stack.Navigator>
-            {authState.authenticated ? (
+            {authState!.authenticated ? (
                 <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
             ) : (
                 <>
+                    <Stack.Screen name="Onboard" component={OnboardingScreen} options={{ headerShown: false }} />
                     <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
                     <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
                     <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />

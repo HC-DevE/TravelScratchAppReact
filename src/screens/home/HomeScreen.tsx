@@ -1,6 +1,6 @@
 //homescreen
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useAuth } from '../../context/AuthContext';
 
@@ -12,29 +12,14 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
     const { onLogout } = useAuth();
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Home</Text>
-            <Text> Welcome to the Home Screen</Text>
-            <Button title="Logout" onPress={onLogout} />
+        <View className="flex-1 justify-center items-center">
+            <Text className="text-2xl font-bold mb-4">Home</Text>
+            <Text className="text-2xl font-bold dark:text-white mb-2"> Welcome to the Home Screen</Text>
+            <Button title="Logout" onPress={onLogout} className="my-2" />
         </View>
     );
 
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 16,
-    },
-    button: {
-        marginVertical: 8,
-    }
-});
 
 export default HomeScreen;
