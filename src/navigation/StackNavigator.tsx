@@ -10,6 +10,7 @@ import ResetPasswordScreen from '../screens/auth/ResetPasswordScreen';
 import { useAuth } from '../context/AuthContext';
 import { View, ActivityIndicator } from 'react-native';
 import OnboardingScreen from '../screens/home/OnboardingScreen';
+import TripScreen from '../screens/trips/TripScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,7 +33,10 @@ const StackNavigator = () => {
     return (
         <Stack.Navigator>
             {authState!.authenticated ? (
-                <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+                <>
+                    {/* <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} /> */}
+                    <Stack.Screen name="Trips" component={TripScreen} options={{ headerShown: false }} />
+                </>
             ) : (
                 <>
                     <Stack.Screen name="Onboard" component={OnboardingScreen} options={{ headerShown: false }} />

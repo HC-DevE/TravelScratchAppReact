@@ -3,7 +3,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { LoginFormData } from '../../models/Login.model';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useAuth } from '../../context/AuthContext';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 
 
 
@@ -39,14 +39,14 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     });
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Login</Text>
+        <View className={styles2.container}>
+            <Text className={styles2.title}>Login</Text>
 
             <Controller
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
-                        style={styles.input}
+                        className={styles2.input}
                         onBlur={onBlur}
                         onChangeText={
                             (value) => {
@@ -74,7 +74,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
-                        style={styles.input}
+                        className={styles2.input}
                         onBlur={onBlur}
                         onChangeText={
                             (value) => {
@@ -96,8 +96,10 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                 }}
                 defaultValue=""
             />
-            {errors.password && <Text style={styles.errorText}>{errors.password.message}</Text>}
-            <Button title="Sign In" onPress={login} />
+            {errors.password && <Text className={styles2.errorText}>{errors.password.message}</Text>}
+            <TouchableOpacity className={styles2.button} onPress={login}>
+                <Text className={styles2.buttonText}>Login</Text>
+            </TouchableOpacity>
             <Button title="Forget Password" onPress={() => {
                 navigation.navigate('ForgotPassword');
             }} />
@@ -131,6 +133,16 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
 });
+
+const styles2 = {
+    container: 'flex-1 justify-top px-[20px]',
+    title: 'text-2xl font-bold mb-4 text-center color-[#0099CC]',
+    text: 'text-2xl font-bold dark:text-white mb-2',
+    button: 'my-2 rounded',
+    buttonText: 'text-xl font-bold dark:text-white',
+    input: 'w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-300',
+    errorText: 'text-red-500 mb-2',
+}
 
 
 export default LoginScreen;
