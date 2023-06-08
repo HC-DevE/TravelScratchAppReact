@@ -17,7 +17,7 @@ const OnboardingScreen: React.FC = () => {
                 className="flex-1 justify-top align-center ">
                 <View className="flex-1">
                     {/* logo image */}
-                    <Image source={require('../../assets/images/logo-blanc.png')}
+                    <Image source={require('../../assets/images/logo-noir.png')}
                         className="w-full h-20">
                     </Image>
                     {/* title */}

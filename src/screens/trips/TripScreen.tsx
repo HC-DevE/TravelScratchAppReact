@@ -1,4 +1,4 @@
-import { View, Text, Button, ScrollView, TouchableOpacity, Image, TextInput } from 'react-native'
+import { View, Text, Button, ScrollView, TouchableOpacity, TextInput } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { getTrips, getUserTrips } from './GetTrips'
 import { TripData } from '../../models/Trip.model';
@@ -6,12 +6,20 @@ import { useAuth } from '../../context/AuthContext';
 import Icon from 'react-native-ionicons';
 import TripCardContainer from '../../components/TripCards';
 
+
+
 const TripScreen = () => {
     //data
     const [trips, setTrips] = useState([]);
     const [error, setError] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const { onLogout } = useAuth();
+    //functions
+    const addTrip = () => {
+        //navigates to tripScreen
+        // navigation.navigate('TripScreen');
+    }
+
     //useEffect
     useEffect(() => {
         setIsLoading(true);
@@ -101,10 +109,11 @@ const TripScreen = () => {
                     </>
                 ) : (<Text>No trips</Text>)}
             </View>
-            {/* <Button title="Logout" onPress={onLogout} className="my-2" /> */}
+            <Button title="Logout" onPress={addTrip} className="my-2" />
         </ScrollView>
 
     )
 }
 
 export default TripScreen
+

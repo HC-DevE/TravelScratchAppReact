@@ -10,6 +10,7 @@ const TOKEN_KEY = 'jwt-auth-token';
 export const getTrips = async () => {
   try {
     const response = await axios.get(`${DISTANT_API_URL}trips/all`);
+    // const response = await axios.get(`${process.env.REACT_APP_DISTANT_API_URL}trips/all`);
     const trips: TripData = response.data;
     return trips;
   } catch (error) {

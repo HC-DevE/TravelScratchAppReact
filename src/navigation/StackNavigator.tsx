@@ -11,6 +11,7 @@ import { useAuth } from '../context/AuthContext';
 import { View, ActivityIndicator } from 'react-native';
 import OnboardingScreen from '../screens/home/OnboardingScreen';
 import TripScreen from '../screens/trips/TripScreen';
+import AddTripScreen from '../screens/trips/AddTripScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,6 +37,8 @@ const StackNavigator = () => {
                 <>
                     {/* <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} /> */}
                     <Stack.Screen name="Trips" component={TripScreen} options={{ headerShown: false }} />
+                    <Stack.Screen name="AddTrip" component={AddTripScreen} options={{ headerShown: false }} />
+
                 </>
             ) : (
                 <>
