@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, Button, TextInput, StyleSheet } from 'react-native';
+import { View, Text, Button, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import appTheme from '../../constants/theme';
 // import Button from '../../components/Button';
 import { RegisterFormData, RegisterScreenProps } from '../../models/Register.model';
 import { useAuth } from '../../context/AuthContext';
+import Spacer from '../../components/Spacer';
 
 const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
 
@@ -37,8 +38,8 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
 
     return (
         <View className={styles.container}>
-            <Text className={appTheme.STYLES.subtitle}>Register</Text>
-
+            <Text className={styles.title}>Register</Text>
+            <Spacer size={120} />
             <Controller
                 control={control}
                 render={() => (
@@ -114,7 +115,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                 defaultValue=""
             />
             {errors.email && <Text className={styles.errorText}>{errors.email.message}</Text>}
-            <Controller
+            {/* <Controller
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
@@ -142,7 +143,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                 }}
                 defaultValue=""
             />
-            {errors.birth_date && <Text className={styles.errorText}>{errors.birth_date.message}</Text>}
+            {errors.birth_date && <Text className={styles.errorText}>{errors.birth_date.message}</Text>} */}
 
             <Controller
                 control={control}
@@ -210,27 +211,40 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                 <Text className={styles.errorText}>{errors.confirm_password.message}</Text>
             )}
 
-            <Button
+            {/* <Button
                 title="Register"
                 onPress={handleSubmit(register)}
                 color={''}
-                disabled={watch('first_name') && watch('email') ? false : true} />
+            // disabled={watch('first_name') && watch('email') ? false : true} 
+            />
             <Button
                 title="Back to Login"
                 onPress={() => navigation.navigate('Login')}
                 color={''}
-                disabled={false} />
+                disabled={false} /> */}
+
+            <Spacer size={150} />
+            <TouchableOpacity className={styles.button} onPress={handleSubmit(register)}>
+                <Text className={styles.buttonText}>Register</Text>
+            </TouchableOpacity>
+            <TouchableOpacity className={styles.button2} onPress={() => navigation.navigate('Login')}>
+                <Text className={styles.buttonText2}>Already have an account ?</Text>
+            </TouchableOpacity>
         </View>
     );
 
 };
 
 const styles = {
-    container: 'flex-1 justify-center px-4',
-    title: 'text-2xl font-bold mb-4',
-    subtitle: 'text-2xl font-bold text-black text-center mb-4',
-    input: 'h-10 border border-gray-300 px-2 mb-2',
+    container: 'flex-1 justify-center px-[20px]',
+    title: 'text-3xl top-10 left-[42%] absolute font-bold text-center color-[#0099CC]',
+    text: 'text-2xl font-bold dark:text-white mb-2',
+    button: 'my-2 py-2 rounded-full bg-[#0099CC]',
+    buttonText: 'text-xl text-center font-bold dark:text-white text-white',
+    button2: 'my-2 py-2 rounded-full bg-transparent',
+    buttonText2: 'text-xl text-center font-bold dark:text-white text-[#0099CC]',
+    input: 'w-full my-2 p-2 border border-gray-300 rounded-3xl focus:outline-none focus:border-blue-300',
     errorText: 'text-red-500 mb-2',
-}; // à enlever après 
+}
 
 export default RegisterScreen;

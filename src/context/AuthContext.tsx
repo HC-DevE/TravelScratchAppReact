@@ -3,7 +3,7 @@ import axios from "axios";
 import { RegisterFormData } from "../models/Register.model";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LoginFormData } from "../models/Login.model";
-import { API_URL } from "../config/config";
+import { API_URL, DISTANT_API_URL } from "../config/config";
 
 interface AuthProps {
     authState?: { token: string | null; authenticated: boolean | null };
@@ -79,7 +79,7 @@ export const AuthProvider = ({ children }: any) => {
         setIsLoading(true);
         const { password, confirm_password, ...newData } = data;
         try {
-            const response = await axios.post(`${API_URL}auth/register`, {
+            const response = await axios.post(`${DISTANT_API_URL}auth/register`, {
                 ...newData,
                 password_hash: password,
             });
@@ -99,7 +99,7 @@ export const AuthProvider = ({ children }: any) => {
     const onLogin = async (data: LoginFormData) => {
         setIsLoading(true);
         try {
-            const response = await axios.post(`${API_URL}auth/login`, {
+            const response = await axios.post(`${DISTANT_API_URL}auth/login`, {
                 email: data.email,
                 password_hash: data.password
             });
@@ -137,7 +137,7 @@ export const AuthProvider = ({ children }: any) => {
     const onForgotPassword = async (data: { email: string }) => {
         setIsLoading(true);
         try {
-            const response = await axios.post(`${API_URL}password/forgot-password`, {
+            const response = await axios.post(`${DISTANT_API_URL}password/forgot-password`, {
                 email: data.email,
             });
             setIsLoading(false);

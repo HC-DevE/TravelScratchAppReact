@@ -6,7 +6,7 @@ export interface RegisterFormData {
     email: string;
     password: string;
     confirm_password?: string;
-    birth_date?: string;
+    // birth_date?: string;
     gender?: string;
     preferences?: string;
 }

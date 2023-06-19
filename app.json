@@ -1,4 +1,18 @@
 {
-  "name": "TravelScratchAppReact",
-  "displayName": "TravelScratchAppReact"
+  "name": "main",
+  "displayName": "TravelScratchAppReact",
+  "plugins": [
+    [
+      "@rnmapbox/maps",
+      {
+        "RNMapboxMapsImpl": "mapbox",
+        "RNMapboxMapsDownloadToken": "sk.eyJ1IjoiaGMteGRldiIsImEiOiJjbGl2aHhuYXgyNzViM2RvYzV5NGo5aHhwIn0.58tSXGp_hm0NxVKpgPUu0w"
+      }
+    ]
+  ],
+  "extra": {
+    "eas": {
+      "projectId": "71b252f2-2813-4007-8c33-d60b14ca72e7"
+    }
+  }
 }

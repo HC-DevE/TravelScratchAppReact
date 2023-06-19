@@ -7,23 +7,23 @@ const OnboardingScreen: React.FC = () => {
     const navigation = useNavigation();
 
     const handleStart = () => {
-        navigation.navigate('Welcome');
+        navigation.navigate('Login');
     };
 
     return (
         // background image
         <View className="flex-1 flex-col justify-center">
             <ImageBackground source={require('../../assets/images/travel2.jpg')}
-                className="flex-1 justify-top align-center ">
+                className="flex-1 justify-top align-center pt-10 ">
                 <View className="flex-1">
                     {/* logo image */}
-                    <Image source={require('../../assets/images/logo-noir.png')}
+                    <Image source={require('../../assets/images/logo-blanc.png')}
                         className="w-full h-20">
                     </Image>
                     {/* title */}
-                    <Text className="text-white text-center font-bold text-3xl mt-10">Welcome!</Text>
+                    <Text className="text-white text-center font-bold text-4xl mt-10">Welcome!</Text>
                     {/* subtitle */}
-                    <Text className="text-white text-center font-normal text-sm mt-1">Travel, scratch, share !</Text>
+                    <Text className="text-white text-center font-normal text-lg  mt-1">Travel, Scratch, Share !</Text>
                     {/* button */}
                     <View className="flex flex-col items-center bottom-20 w-full absolute">
                         <TouchableOpacity onPress={handleStart}

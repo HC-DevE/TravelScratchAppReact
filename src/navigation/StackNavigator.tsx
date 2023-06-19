@@ -38,6 +38,7 @@ const StackNavigator = () => {
                     {/* <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} /> */}
                     <Stack.Screen name="Trips" component={TripScreen} options={{ headerShown: false }} />
                     <Stack.Screen name="AddTrip" component={AddTripScreen} options={{ headerShown: false }} />
+                    {/* <Stack.Screen name="Maps" component={MapScreen} options={{ headerShown: false }} /> */}
 
                 </>
             ) : (
